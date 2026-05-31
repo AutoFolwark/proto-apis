@@ -97,7 +97,7 @@ message GetCalculatorWithoutDataRequest {
 }
 
 message GetCalculatorWithDataResponse {
-  CalculatorOut data = 1;
+  Calculator data = 1;
   DetailedCalculatorData detailed_data = 2;
   string message = 3;
   bool success = 4;
@@ -123,7 +123,7 @@ message DetailedCalculatorData{
 }
 
 message GetCalculatorWithIdsResponse {
-    CalculatorOut calculator = 1;
+    Calculator calculator = 1;
     Location location = 2;
     string terminal_name = 3;
     string destination_name = 4;
@@ -144,14 +144,14 @@ message FeeType{
 }
 
 message GetCalculatorWithoutDataResponse {
-  CalculatorOut data = 1;
+  Calculator data = 1;
   DetailedCalculatorData detailed_data = 2;
   string message = 3;
   bool success = 4;
 }
 
 message CalculatorBatchItem {
-  CalculatorOut calculator = 1;
+  Calculator calculator = 1;
   string lot_id = 2;
 }
 
@@ -163,29 +163,37 @@ message GetCalculatorWithDataBatchResponse {
 
 message City {
   string name = 1;
-  int32 price = 2;
+  double price = 2;
 }
 
-message VATs {
+message Taxes {
   repeated City vats = 1;
-  repeated City eu_vats = 2;
+  repeated City duties = 2;
+}
+
+message TaxFlags {
+  bool is_monument = 1;
+  bool purchase_for_company = 2;
+  string duty_category = 3;
+  double duty_rate = 4;
+  double vat_rate = 5;
 }
 
 message SpecialFee {
-  int32 price = 1;
+  double price = 1;
   string name = 2;
 }
 
 message AdditionalFeesOut {
-  int32 summ = 1;
+  double summ = 1;
   repeated SpecialFee fees = 2;
-  int32 auction_fee = 3;
-  int32 internet_fee = 4;
-  int32 live_fee = 5;
+  double auction_fee = 3;
+  double internet_fee = 4;
+  double live_fee = 5;
 }
 
 message BaseCalculator {
-  int32 broker_fee = 1;
+  double broker_fee = 1;
   repeated City transportation_price = 2;
   repeated City ocean_ship = 3;
   AdditionalFeesOut additional = 4;
@@ -193,27 +201,37 @@ message BaseCalculator {
 }
 
 message DefaultCalculator {
-  int32 broker_fee = 1;
+  double broker_fee = 1;
   repeated City transportation_price = 2;
   repeated City ocean_ship = 3;
   AdditionalFeesOut additional = 4;
   repeated City totals = 5;
-  int32 auction_fee = 6;
-  int32 live_fee = 7;
-  int32 internet_fee = 8;
+  double auction_fee = 6;
+  double live_fee = 7;
+  double internet_fee = 8;
 }
 
 message EUCalculator {
-  int32 broker_fee = 1;
+  double broker_fee = 1;
   repeated City transportation_price = 2;
   repeated City ocean_ship = 3;
   AdditionalFeesOut additional = 4;
   repeated City totals = 5;
-  VATs vats = 6;
-  int32 custom_agency = 7;
+  Taxes taxes = 6;
+  double custom_agency = 7;
+  repeated City totals_without_default = 10;
+  optional TaxFlags tax_flags = 11;
 }
 
 message CalculatorOut {
   DefaultCalculator calculator = 1;
   EUCalculator eu_calculator = 2;
+  string currency = 3;
+}
+
+message Calculator {
+  CalculatorOut calculator_in_dollars = 1;
+  repeated CalculatorOut calculators_in_currencies = 2;
+  repeated string destinations = 3;
+  double rate = 4;
 }
