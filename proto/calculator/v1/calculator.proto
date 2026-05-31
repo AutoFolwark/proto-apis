@@ -70,6 +70,8 @@ message GetCalculatorWithDataRequest {
   string vehicle_type = 4;
   optional string destination = 5;
   string location = 6;
+  optional int32 year = 7;
+  bool purchase_for_company = 8;
 }
 
 message GetCalculatorWithIdsRequest {
@@ -79,6 +81,8 @@ message GetCalculatorWithIdsRequest {
     string vehicle_type = 4;
     optional int32 destination_id = 5;
     optional int32 location_id = 6;
+    optional int32 year = 7;
+    bool purchase_for_company = 8;
 }
 
 message GetCalculatorBatchRequest {
@@ -94,6 +98,9 @@ message GetCalculatorWithoutDataRequest {
   int32 price = 1;
   string auction = 2;
   string lot_id = 3;
+  optional string destination = 4;
+  bool purchase_for_company = 5;
+  optional int32 year = 6;
 }
 
 message GetCalculatorWithDataResponse {
