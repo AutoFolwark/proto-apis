@@ -234,6 +234,7 @@ message CalculatorOut {
   DefaultCalculator calculator = 1;
   EUCalculator eu_calculator = 2;
   string currency = 3;
+  double rate_to_usd = 4;
 }
 
 message Calculator {
